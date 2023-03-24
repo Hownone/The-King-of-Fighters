@@ -1,0 +1,13 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+#kof {
+    width: 1450px;
+    height: 720px;
+    background-image: url("/static/images/background/0.gif");
+    background-size: 200% 100%;
+    background-position: center;
+    position: relative;
+}

@@ -1,13 +1,17 @@
 import GameMap from './game_map/base.js';
 import Kyo from './player/kyo.js';
-import Player from './player/base.js';
-import Controller from './controller/base.js';
 
 class KOF {
     constructor(id) {
         this.$kof = $('#' + id);
         this.game_map = new GameMap(this);
-
+        this.$head = $(`<div class="kof-head">
+                       <div class="kof-head-hp-0"><div><div></div></div></div>
+                       <div class="kof-head-timer">60</div>
+                       <div class="kof-head-hp-1"><div><div></div></div></div>
+                    </div>`);
+        this.$kof.append(this.$head);
+        this.$timer = this.$kof.find(`.kof-head-timer`);
         this.players = [
             new Kyo(this, {
                 id: 0,

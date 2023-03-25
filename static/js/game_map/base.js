@@ -6,12 +6,15 @@ export default class GameMap extends AcGameObject {
     constructor(root) {
         super();
         this.root = root; //方便索引地图上的整个元素
-        this.$canvas = $(`<canvas id="tutorial" width="1450" height="720" tabindex=0></canvas>`);
+        this.$canvas = $(`<canvas id="tutorial" width="1440" height="720" tabindex=0></canvas>`);
         this.ctx = this.$canvas[0].getContext('2d'); //获取canvas
         this.root.$kof.append(this.$canvas); //将canvas加入到$kof中
         this.$canvas.focus(); //为了能让canvas获取输入，要让canvas聚焦
 
         this.controller = new Controller(this.$canvas);
+
+        this.time_left = 60000; //单位毫秒
+
 
     }
 
@@ -21,6 +24,19 @@ export default class GameMap extends AcGameObject {
     }
 
     update() {
+        this.time_left -= this.timeDelta;
+        if (this.time_left < 0) {
+            this.time_left = 0;
+            let [a, b] = this.root.players;
+            if (a.status !== 6 && b.status !== 6) {
+                a.status = b.status = 6;
+                a.frame_current_cnt = b.frame_current_cnt = 0;
+                a.vx = b.vx = 0;
+            }
+        }
+
+        this.root.$timer.text(parseInt(this.time_left / 1000)); //转化为秒
+
         this.render();
     }
 

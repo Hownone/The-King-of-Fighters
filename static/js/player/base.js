@@ -29,6 +29,8 @@ export default class Player extends AcGameObject {
         this.frame_current_cnt = 0; // 记录当前是第几帧（总帧数）
 
         this.hp = 100;
+        this.$hp = this.root.$kof.find(`.kof-head-hp-${this.id} > div`); //外面的div
+        this.$hp_div = this.$hp.find('div'); //里面的div
     }
 
     start() {
@@ -42,6 +44,31 @@ export default class Player extends AcGameObject {
 
         this.x += this.vx * this.timeDelta / 1000; //路程=速度*时间，timeDelta单位是毫秒，所以要 / 1000
         this.y += this.vy * this.timeDelta / 1000;
+
+        // let [a, b] = this.root.players;
+        // if (a != this) [a,b] = [b,a]; // a是自己
+        // let r1 = {
+        //     x1: a.x,
+        //     y1: a.y,
+        //     x2: a.x + a.width,
+        //     y2: a.y + a.height,
+        // };
+
+        // let r2 = {
+        //     x1: b.x,
+        //     y1: b.y,
+        //     x2: b.x + b.width,
+        //     y2: b.y + b.height,
+        // };
+
+        // if (this.is_collision(r1, r2)) { //若角色碰撞则以一半的速度推着对方走
+        //     b.x += this.vx * this.timeDelta / 1000 / 2; //路程=速度*时间，timeDelta单位是毫秒，所以要 / 1000
+        //     b.y += this.vy * this.timeDelta / 1000 / 2;
+        //     a.x -= this.vx * this.timeDelta / 1000 / 2;
+        //     a.y -= this.vy * this.timeDelta / 1000 / 2;
+        //     if (this.status === 3) this.status = 0;
+        // }
+
 
 
         if (this.y > 410) {  //到达地面后转换为状态0
@@ -57,6 +84,9 @@ export default class Player extends AcGameObject {
         else if (this.x + this.width >= this.root.game_map.$canvas.width()) {
             this.x = this.root.game_map.$canvas.width() - this.width;
         }
+
+        //console.log(`id:${this.id} ${this.vy}`);
+
     }
 
     update_control() { //每一帧都要去判断一下摁的是什么键
@@ -95,14 +125,14 @@ export default class Player extends AcGameObject {
             } else if (d) { // 向前
                 this.vx = this.speedX;
                 this.status = 1;
-                this.vy = 0;
+                //this.vy = 0;
             } else if (a) { //向后
                 this.vx = -this.speedX;
                 this.status = 2;
-                this.vy = 0;
+                //this.vy = 0;
             } else { //没有移动
                 this.vx = 0;
-                this.vy = 0;
+                // this.vy = 0;
                 this.status = 0;
             }
         }
@@ -130,9 +160,20 @@ export default class Player extends AcGameObject {
         this.frame_current_cnt = 0; //从第0帧开始渲染
         this.hp = Math.max(this.hp - 10, 0);
 
+        this.$hp_div.animate({
+            width: this.$hp.parent().width() * this.hp / 100
+        }, 300);
+
+        this.$hp.animate({
+            width: this.$hp.parent().width() * this.hp / 100
+        }, 650);
+        //根据父元素来改变百分比宽度
+        //this.$hp.width(this.$hp.parent().width() * this.hp / 100);
+
         if (this.hp <= 0) {
             this.status = 6; //更新为死亡状态
             this.frame_current_cnt = 0;
+            this.vx = 0;
         }
     }
 
@@ -172,8 +213,8 @@ export default class Player extends AcGameObject {
 
 
     update() {
-        this.update_move();
         this.update_control();
+        this.update_move();
         this.update_direction();
         this.update_attack();
 
@@ -235,6 +276,8 @@ export default class Player extends AcGameObject {
 
 
         this.frame_current_cnt++;
+
+        // console.log(this.id, this.status);
     }
 
     test() {

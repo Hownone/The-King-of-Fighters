@@ -23,6 +23,10 @@ export default class AcGameObject {
             AC_GAME_OBJECTS.splice(i, 1);
         }
     }
+
+    // test_ac() {
+    //     console.log("yes you are right!")
+    // }
 }
 
 

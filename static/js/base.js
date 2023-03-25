@@ -14,7 +14,7 @@ class KOF {
                 x: 290,
                 y: 0,
                 width: 150,
-                height: 220,
+                height: 250,
                 color: 'blue',
             }),
             new Kyo(this, {
@@ -22,7 +22,7 @@ class KOF {
                 x: 1010,
                 y: 0,
                 width: 150,
-                height: 220,
+                height: 250,
                 color: 'orange',
             }),
         ];

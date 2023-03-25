@@ -7,7 +7,8 @@ export default class Kyo extends Player {
 
         this.init_animations();
 
-        this.test();
+        //this.test();
+        //this.test_ac();
 
     }
 
@@ -20,7 +21,7 @@ export default class Kyo extends Player {
             this.animations.set(i, {
                 gif: gif,
                 frame_cnt: 0, //有多少帧,总图片数，初始都为0，需要加载完后重新定义
-                frame_rate: 4, //渲染速率，每5帧渲染一次
+                frame_rate: 4, //渲染速率，每4帧渲染一次
                 offset_y: offsets[i], //竖直方向的偏移量
                 loaded: false,//有没有被加载进页面
                 scale: 2.5, //缩放倍率
